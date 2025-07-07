@@ -1,0 +1,11 @@
+{
+  "name": "com.ahr.urp-simple-blit",
+  "version": "1.0.0",
+  "displayName": "AHR URP Simple Blit",
+  "description": "A barebones blit ScriptableRendererFeature using RenderGraph API, that saves a single pass.",
+  "unity": "6000.0",
+  "author": {
+    "name": "AnssiRem",
+    "url": "https://github.com/AnssiRem"
+  }
+}

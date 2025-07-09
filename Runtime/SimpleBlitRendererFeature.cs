@@ -8,6 +8,8 @@ namespace AHR.Rendering
 
   public class SimpleBlitRendererFeature : ScriptableRendererFeature
   {
+    protected ScriptableRenderPass Pass;
+
     [SerializeField]
     private Material m_blitMaterial;
     [SerializeField]
@@ -17,7 +19,13 @@ namespace AHR.Rendering
     private bool m_enableInSceneView;
 #endif
 
-    private ScriptableRenderPass m_pass;
+    protected Material BlitMaterial => m_blitMaterial;
+
+    protected RenderPassEvent InjectionPoint => m_injectionPoint;
+
+#if UNITY_EDITOR
+    protected bool EnableInSceneView => m_enableInSceneView;
+#endif
 
     public override void Create()
     {
@@ -26,14 +34,14 @@ namespace AHR.Rendering
         return;
       }
 
-      m_pass = new SimpleBlitPass(m_blitMaterial) { renderPassEvent = m_injectionPoint };
+      Pass = new SimpleBlitPass(m_blitMaterial) { renderPassEvent = m_injectionPoint };
     }
 
     public override void AddRenderPasses(
       ScriptableRenderer renderer,
       ref RenderingData renderingData)
     {
-      if (m_pass == null)
+      if (Pass == null)
       {
         return;
       }
@@ -45,10 +53,10 @@ namespace AHR.Rendering
       }
 #endif
 
-      renderer.EnqueuePass(m_pass);
+      renderer.EnqueuePass(Pass);
     }
 
-    private class SimpleBlitPass : ScriptableRenderPass
+    protected class SimpleBlitPass : ScriptableRenderPass
     {
       private readonly Material m_material;
 
